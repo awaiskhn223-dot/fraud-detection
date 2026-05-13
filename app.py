@@ -1,0 +1,19 @@
+import streamlit as st
+import joblib
+import pandas as pd
+
+st.title("Fraud Detection System")
+st.write("Enter transaction details to check for fraud.")
+
+model = joblib.load("fraud_model.pkl")
+
+amount = st.number_input("Transaction Amount ($)", min_value=0)
+txn_type = st.selectbox("Transaction Type", ["Payment", "Transfer", "Cash Out"])
+old_balance = st.number_input("Old Balance ($)", min_value=0)
+new_balance = st.number_input("New Balance ($)", min_value=0)
+
+if st.button("Check Transaction"):
+    if amount > 100000 and new_balance == 0:
+        st.error("🚨 FRAUD DETECTED!")
+    else:
+        st.success("✅ Transaction is Safe")
